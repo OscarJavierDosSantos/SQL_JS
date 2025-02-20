@@ -1,24 +1,27 @@
-import { loadEnvFile } from 'process';
-import {
-    createGenere,
-    getAllGeneres,
-    openConnection,
-    updateGenere,
-} from './db.js';
+// import { loadEnvFile, } from 'node:process';
 
-loadEnvFile('.env');
+import { openConnection } from './db.js';
+import { ManageGeneres } from './generes.js';
+process.loadEnvFile('.env');
 
 try {
-    //tipado tupla = const r: [mysql.QueryResult, mysql.FieldPacket[]]
     const connection = await openConnection();
-    const generes = await getAllGeneres(connection);
+    const manageGeneres = new ManageGeneres(connection);
+    const generes = await manageGeneres.getAllGeneres();
     console.log(generes);
-    // const result = await createGenere(connection, 'war');
+    // const result = await createGenere('War');
     // console.log(result);
-    // const result2 = await updateGenere(connection, 'war30', 31);
-    // console.log(resul2);
-
-    connection?.end();
+    // const result2 = await updateGenere(25, 'Drama');
+    // console.log(result2);
+    // for (let i = 14; i < 29; i++) {
+    //     const result = await deleteGenere(i);
+    //     console.log(result);
+    // }
+    // connection.end();
 } catch (error) {
-    console.error((error as Error).message);
+    if (error instanceof Error) {
+        console.error(error);
+    } else {
+        console.error(error);
+    }
 }
