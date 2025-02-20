@@ -13,10 +13,10 @@ try {
     const connection = await openConnection();
     const generes = await getAllGeneres(connection);
     console.log(generes);
-    const result = await createGenere(connection, 'war');
-    console.log(result);
-    const result2 = await updateGenere(connection, 'war30', 31);
-    console.log(resul2);
+    // const result = await createGenere(connection, 'war');
+    // console.log(result);
+    // const result2 = await updateGenere(connection, 'war30', 31);
+    // console.log(resul2);
 
     connection?.end();
 } catch (error) {
