@@ -1,26 +1,26 @@
 import type { Connection, ResultSetHeader } from 'mysql2/promise';
-import type { Generes } from './entities';
+import type { Movies } from './entities';
 
-export class ManageGeneres {
+export class ManageMovies {
     constructor(private connection: Connection) {}
 
     getAllMovies = async () => {
-        const q = 'select * from movies';
-        const [rows] = await this.connection.query<Generes[]>(q);
+        const q = 'SELECT bin_to_uuid(movie_id) as movie_id,title,release_year,director,duration,poster,rate FROM movies_db.movies;';
+        const [rows] = await this.connection.query<Movies[]>(q);
         return rows;
     };
 
     getMoviesById = async (id: number) => {
-        const q = `select * from movies where movie_id = bin_to_uuid(?)`;
+        const q = 'SELECT bin_to_uuid(movie_id) as movie_id,title,release_year,director,duration,poster,rate FROM movies_db.movies where movie_id = uuid_to_bin(?)'
         const [rows] = await this.connection.query(q, [id]);
         return rows;
     };
 
-    createMovies = async (name: string) => {
-        const q = `insert into movies (name) VALUES (?);`;
-        const [result] = await this.connection.query<ResultSetHeader>(q, [
-            name,
-        ]);
+    createMovies = async (title: string,release_year:number,director:string,duration:number,poster:string,rate:string) => {
+        const q = 'INSERT INTO movies(movie_id,title,release_year,director,duration,poster,rate) VALUES (uuid_to_bin(uuid()),?,?,?,?,?,?);'
+
+        const [result] = await this.connection.query<ResultSetHeader>(q, [title,release_year,director,duration,poster,rate]);
+        console.log(result);
 
         if (result.affectedRows === 1) {
             console.log('Movies created with id:', result.insertId);
