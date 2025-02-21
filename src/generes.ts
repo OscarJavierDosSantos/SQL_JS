@@ -1,18 +1,18 @@
 import type { Connection, ResultSetHeader } from 'mysql2/promise';
-import type { Generes } from './entities';
+import type { Genere } from './entities';
 
 export class ManageGeneres {
     constructor(private connection: Connection) {}
 
     getAllGeneres = async () => {
         const q = 'select genere_id as id, name from generes';
-        const [rows] = await this.connection.query<Generes[]>(q);
+        const [rows] = await this.connection.query<Genere[]>(q);
         return rows;
     };
 
     getGenereById = async (id: number) => {
         const q = `select genere_id as id, name from generes where genere_id = ?`;
-        const [rows] = await this.connection.query<Generes[]>(q, [id]);
+        const [rows] = await this.connection.query<Genere[]>(q, [id]);
         return rows;
     };
 

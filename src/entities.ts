@@ -1,22 +1,34 @@
 import { UUID } from 'crypto';
 import type { RowDataPacket } from 'mysql2/promise';
 
+export type SqlError = {
+    code: string;
+    errno: number;
+    sqlState: string;
+    sqlMessage: string;
+} & Error;
+
 // interface Category extends mysql.RowDataPacket {
 //     id: number;
 //     name: string;
 // };
 
-export type Generes = {
+export type Genere = {
     id: number;
     name: string;
-} & RowDataPacket;
+};
 
-export type Movies = {
-    movie_id: UUID;
+export type GenereRow = Genere & RowDataPacket;
+
+export type Movie = {
+    id: UUID;
     title: string;
-    release_year: number;
+    year: number;
     director: string;
     duration: number;
     poster: string;
     rate: number;
-} & RowDataPacket;
+    genere?: string[];
+};
+
+export type MovieRow = Movie & RowDataPacket;
